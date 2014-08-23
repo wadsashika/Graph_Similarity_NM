@@ -47,8 +47,8 @@ public class Graph {
     public void addEdge(int n1, int n2) {
         edges.add(new Edge(n1, n2));
 
-        nodes.get(n1).add(n2);
-        nodes.get(n2).add(n1);
+        nodes.get(n1).add(edges.size()-1);
+        nodes.get(n2).add(edges.size()-1);
 
         int outEdgesCountTemp = outEdgesCount.get(n1);
         outEdgesCount.add(n1, outEdgesCountTemp++);
@@ -62,11 +62,11 @@ public class Graph {
         return edges.size();
     }
 
-    public int getSourceOfEdge(int edgeNum) {
+    public int getSourceNode(int edgeNum) {
         return edges.get(edgeNum).getSourceNode();
     }
 
-    public int getTerminateOfEdge(int edgeNum) {
+    public int getTerminateNode(int edgeNum) {
         return edges.get(edgeNum).getTerminatingNode();
     }
 
@@ -78,15 +78,17 @@ public class Graph {
         return labels;
     }
 
-    public List<Integer> getOutEdgesCount() {
-        return outEdgesCount;
+    public Integer getOutEdgesCount(int node) {
+        return outEdgesCount.get(node);
     }
 
     public List<Edge> getEdges() {
         return edges;
     }
 
-    public List<List<Integer>> getNodes() {
-        return nodes;
+    public List<Integer> getNodes(int node) {
+        return nodes.get(node);
     }
+
+
 }
