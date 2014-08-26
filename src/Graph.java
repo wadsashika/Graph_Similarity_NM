@@ -1,94 +1,56 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by Sashika on 8/15/2014.
+ * Created by Sashika on 8/26/2014.
  */
 public class Graph {
-    private Map<Integer, String> labels;
-    private List<Integer> outEdgesCount;
-    private List<Edge> edges;
-    private List<List<Integer>> nodes;
+    private Integer[][] graph;
+    private int graphSize;
+    private List<List<Integer>> inDegreeNodeList;
+    private List<List<Integer>> outDegreeNodeList;
 
-    public Graph(Integer[][] graphMatrix, Map<Integer, String> labelList) {
+    public Graph(Integer[][] graph) throws Exception {
         try {
-            labels = labelList;
-            outEdgesCount = new ArrayList<Integer>();
-            edges = new ArrayList<Edge>();
-            nodes = new ArrayList<List<Integer>>();
-
-            reload(graphMatrix);
+            this.graph = graph;
+            this.graphSize = graph.length;
+            this.inDegreeNodeList = new ArrayList<List<Integer>>();
+            this.outDegreeNodeList = new ArrayList<List<Integer>>();
+            setDegreeNodeList();
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
     }
 
-    public void reload(Integer[][] graphMatrix) throws Exception {
-        loadGraph(graphMatrix);
-    }
-
-    public void loadGraph(Integer[][] graphMatrix) throws Exception {
-        int numOfNodes = graphMatrix.length;
-        for (int i = 0; i < numOfNodes; i++) {
-            nodes.add(new ArrayList<Integer>());
-            outEdgesCount.add(0);
+    public void setDegreeNodeList() {
+        for (int i=0; i<graphSize ; i++){
+            inDegreeNodeList.add(new ArrayList<Integer>());
+            outDegreeNodeList.add(new ArrayList<Integer>());
         }
-
-        for (int i = 0; i < numOfNodes; i++) {
-            for (int j = 0; j < numOfNodes; j++) {
-                if (graphMatrix[i][j] != 0) {
-                    addEdge(i, j);
+        for (int i = 0; i < graphSize; i++) {
+            for (int j = 0; j < graphSize; j++) {
+                if (graph[i][j] != 0){
+                    inDegreeNodeList.get(j).add(i);
+                    outDegreeNodeList.get(i).add(j);
                 }
             }
         }
     }
 
-    public void addEdge(int n1, int n2) {
-        edges.add(new Edge(n1, n2));
-
-        nodes.get(n1).add(edges.size()-1);
-        nodes.get(n2).add(edges.size()-1);
-
-        int outEdgesCountTemp = outEdgesCount.get(n1);
-        outEdgesCount.add(n1, outEdgesCountTemp++);
+    public Integer[][] getGraph() {
+        return graph;
     }
 
-    public int getNodeCount() {
-        return nodes.size();
+    public int getGraphSize() {
+        return graphSize;
     }
 
-    public int getEdgeCount() {
-        return edges.size();
+    public List<List<Integer>> getInDegreeNodeList() {
+        return inDegreeNodeList;
     }
 
-    public int getSourceNode(int edgeNum) {
-        return edges.get(edgeNum).getSourceNode();
+    public List<List<Integer>> getOutDegreeNodeList() {
+        return outDegreeNodeList;
     }
-
-    public int getTerminateNode(int edgeNum) {
-        return edges.get(edgeNum).getTerminatingNode();
-    }
-
-    public String getLabel(int i) {
-        return labels.get(i);
-    }
-
-    public Map<Integer, String> getLabels() {
-        return labels;
-    }
-
-    public Integer getOutEdgesCount(int node) {
-        return outEdgesCount.get(node);
-    }
-
-    public List<Edge> getEdges() {
-        return edges;
-    }
-
-    public List<Integer> getNodes(int node) {
-        return nodes.get(node);
-    }
-
-
 }
