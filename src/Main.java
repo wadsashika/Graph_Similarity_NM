@@ -20,7 +20,7 @@ public class Main {
             Graph graphB = new Graph(graphBSource);
 
             NMSimilarity similarityMeasure = new NMSimilarity(graphA,graphB,0.0001);
-            similarityMeasure.initializeSimilarityMatrices();
+            similarityMeasure.measureSimilarity();
         } catch (Exception e) {
             e.printStackTrace();
         }
