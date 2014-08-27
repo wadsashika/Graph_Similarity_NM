@@ -7,6 +7,7 @@ import java.util.List;
 public class Graph {
     private Integer[][] graph;
     private int graphSize;
+    private List<Integer> nodeList;
     private List<List<Integer>> inDegreeNodeList;
     private List<List<Integer>> outDegreeNodeList;
 
@@ -14,6 +15,7 @@ public class Graph {
         try {
             this.graph = graph;
             this.graphSize = graph.length;
+            this.nodeList = new ArrayList<Integer>();
             this.inDegreeNodeList = new ArrayList<List<Integer>>();
             this.outDegreeNodeList = new ArrayList<List<Integer>>();
             setDegreeNodeList();
@@ -52,5 +54,16 @@ public class Graph {
 
     public List<List<Integer>> getOutDegreeNodeList() {
         return outDegreeNodeList;
+    }
+
+    public List<Integer> getNodeList() {
+        setNodeList();
+        return nodeList;
+    }
+
+    public void setNodeList() {
+        for(int i=0; i<graphSize;i++){
+            nodeList.add(i);
+        }
     }
 }
